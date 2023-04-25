@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Buildings;
 using Fields;
+using Quests;
 using Seasons;
 using UnityEngine;
 using Workers;
@@ -9,7 +10,7 @@ namespace Managers
 {
     public class GameManager : MonoBehaviour
     {
-        public static GameManager Instance { get; private set; }
+        private static GameManager _instance;
     
         public static CurrencyManager CurrencyManager;
         public static QuestManager QuestManager;
@@ -30,13 +31,13 @@ namespace Managers
         [SerializeField] 
         private float _tickTime = 1.0f;
     
-        private float _timer = 0f;
+        private float _timer;
 
         private void Awake()
         {
-            if (Instance == null)
+            if (_instance == null)
             {
-                Instance = this;
+                _instance = this;
             }
             else
             {

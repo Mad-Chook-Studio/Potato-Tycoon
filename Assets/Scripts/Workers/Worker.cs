@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
-using Workers;
 
-[CreateAssetMenu(fileName = "NewWorker", menuName = "Potato Tycoon/Worker", order = 0)]
-public class Worker : ScriptableObject
+namespace Workers
 {
-    [SerializeField] private string _workerName;
-    public string WorkerName => _workerName;
+    [CreateAssetMenu(fileName = "NewWorker", menuName = "Potato Tycoon/Worker", order = 0)]
+    public class Worker : ScriptableObject
+    {
+        [SerializeField] private string _workerName;
+        public string WorkerName => _workerName;
 
-    [SerializeField] private int _workerLevel;
-    public int WorkerLevel => _workerLevel;
+        [SerializeField] private int _workerLevel;
+        public int WorkerLevel => _workerLevel;
 
-    [SerializeField] private WorkerUpgrade[] _levels;
-    public WorkerUpgrade[] Levels => _levels;
+        [SerializeField] private WorkerUpgrade[] _levels;
+        public WorkerUpgrade[] Levels => _levels;
+    }
 }

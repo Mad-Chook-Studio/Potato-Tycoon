@@ -2,7 +2,7 @@
 {
     public class QuestData
     {
-        public Quest Quest { get; private set; }
+        public Quest Quest { get; }
         public int Progress { get; private set; }
 
         public QuestData()

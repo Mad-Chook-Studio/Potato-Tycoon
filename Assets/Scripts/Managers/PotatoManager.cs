@@ -1,41 +1,19 @@
 using System.Collections.Generic;
 using System.Linq;
-using Fields;
-using Managers;
+using Potatoes;
 using Seasons;
 using UnityEngine;
 
-public class PotatoManager
+namespace Managers
 {
-    public List<Potato> Potatoes { get; private set; }
-    
-    private SeasonManager _season;
-
-    public PotatoManager() => Potatoes = Resources.LoadAll<Potato>("").ToList();
-
-    // Grow the selected potato species based on the current season and worker efficiency
-    public void GrowPotato(Field field, float workerEfficiency)
+    public class PotatoManager
     {
-        Potato potato = field.PlantedPotato;
-        float seasonalGrowthRate = GameManager.SeasonManager.GetSeasonalGrowthRate(potato);
-        float growthAmount = GameManager.BaseGrowthRate * seasonalGrowthRate * workerEfficiency;
-
-        field.GrowPotato(growthAmount);
-
-        // Implement additional logic, such as updating the UI or saving progress
-        // ...
-    }
+        private readonly List<Potato> _potatoes;
     
-    public Potato GetPotato(string potatoName)
-    {
-        foreach (Potato potato in Potatoes)
-        {
-            if (potato.PotatoName == potatoName)
-            {
-                return potato;
-            }
-        }
+        private SeasonManager _season;
 
-        return null;
+        public PotatoManager() => _potatoes = Resources.LoadAll<Potato>("").ToList();
+    
+        public Potato GetPotato(string potatoName) => _potatoes.FirstOrDefault(potato => potato.PotatoName == potatoName);
     }
 }

@@ -6,7 +6,7 @@ namespace Workers
 {
     public class WorkerManager
     {
-        public List<WorkerData> Workers { get; private set; }
+        private readonly List<WorkerData> _workers = new();
 
         // Hire a worker
         public bool HireWorker(Worker workerToHire)
@@ -23,7 +23,7 @@ namespace Workers
             }
             else
             {
-                Workers.Add(new WorkerData(workerToHire));
+                _workers.Add(new WorkerData(workerToHire));
             }
             
             return true; // Worker successfully hired
@@ -36,7 +36,7 @@ namespace Workers
             
             data.RemoveWorker();
             if (data.Count <= 0)
-                Workers.RemoveAll(x => x.Worker == workerToFire);
+                _workers.RemoveAll(x => x.Worker == workerToFire);
             return true;
         }
 
@@ -58,16 +58,16 @@ namespace Workers
             data.LevelUp();
             return true;
         }
-        
-        public int GetWorkerCount() => Workers.Sum(x => x.Count);
+
+        private int GetWorkerCount() => _workers.Sum(x => x.Count);
 
         private bool GetWorker(Worker worker, out WorkerData data)
         {
-            data = Workers.Find(x => x.Worker == worker);
+            data = _workers.Find(x => x.Worker == worker);
             return data != null;
         }
 
-        public float GetWorkerEfficiency(int potatoLevel) => Workers.Where(worker => worker.Level >= potatoLevel)
+        public float GetWorkerEfficiency(int potatoLevel) => _workers.Where(worker => worker.Level >= potatoLevel)
             .Sum(worker => worker.EfficiencyMultiplier);
     }
 }

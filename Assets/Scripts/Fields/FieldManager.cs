@@ -5,13 +5,13 @@ namespace Fields
 {
     public class FieldManager
     {
-        public List<Field> Fields { get; }
+        private readonly List<Field> _fields;
 
-        public FieldManager(List<Field> fields) => Fields = fields;
+        public FieldManager(List<Field> fields) => _fields = fields;
         
         public void GrowPotatoes()
         {
-            foreach (Field field in Fields)
+            foreach (Field field in _fields)
             {
                 float efficiency = GameManager.CalculateTotalEfficiency(field.PlantedPotato.Level);
                 field.GrowPotato(GameManager.BaseGrowthRate * efficiency);

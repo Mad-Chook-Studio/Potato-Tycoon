@@ -1,14 +1,14 @@
-﻿using Buildings;
-using TMPro;
-using UnityEditor.Build.Reporting;
-using UnityEngine;
+﻿using UnityEngine;
 
-[System.Serializable]
-public class BuildingUpgrade
+namespace Buildings
 {
-    [SerializeField] private int _cost;
-    public int Cost => _cost;
+    [System.Serializable]
+    public class BuildingUpgrade
+    {
+        [SerializeField] private int _cost;
+        public int Cost => _cost;
 
-    [SerializeField] private BuildingStats _stats;
-    public BuildingStats Stats => _stats;
+        [SerializeField] private BuildingStats _stats;
+        public BuildingStats Stats => _stats;
+    }
 }

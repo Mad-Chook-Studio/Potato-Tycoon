@@ -1,25 +1,28 @@
-﻿public class CurrencyManager
+﻿namespace Managers
 {
-    public int Currency { get; private set; }
-
-    public void EarnCurrency(int amount)
+    public class CurrencyManager
     {
-        Currency += amount;
-        // Update UI to show new currency amount
-        // ...
-    }
+        public int Currency { get; private set; }
 
-    public bool SpendCurrency(int amount)
-    {
-        if (Currency < amount)
+        public void EarnCurrency(int amount)
         {
-            return false; // Not enough currency to spend
+            Currency += amount;
+            // Update UI to show new currency amount
+            // ...
         }
 
-        Currency -= amount;
-        // Update UI to show new currency amount
-        // ...
+        public bool SpendCurrency(int amount)
+        {
+            if (Currency < amount)
+            {
+                return false; // Not enough currency to spend
+            }
 
-        return true;
+            Currency -= amount;
+            // Update UI to show new currency amount
+            // ...
+
+            return true;
+        }
     }
 }
