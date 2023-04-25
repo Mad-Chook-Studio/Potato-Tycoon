@@ -13,11 +13,8 @@ namespace Buildings
         [SerializeField] private Sprite _buildingSprite;
         public Sprite BuildingSprite => _buildingSprite;
 
-        [SerializeField] private int _workerCapacity;
-        public int WorkerCapacity => _workerCapacity;
-
-        [SerializeField] private List<BuildingUpgrade> _upgrades;
-        public List<BuildingUpgrade> Upgrades => _upgrades;
+        [SerializeField] private List<BuildingUpgrade> _levels;
+        public List<BuildingUpgrade> Levels => _levels;
 
         [SerializeField] private BuildingSize _size;
         public BuildingSize Size => _size;

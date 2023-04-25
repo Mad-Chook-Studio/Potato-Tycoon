@@ -14,9 +14,9 @@ namespace Workers
         public WorkerData(Worker worker)
         {
             Worker = worker;
-            _currentLevel = 0;
+            _currentLevel = 1;
             Count = 1;
-            EfficiencyMultiplier = Worker.EfficiencyMultiplier;
+            EfficiencyMultiplier = Worker.Levels[0].Cost;
         }
 
         public void AddWorker() => Count++;
@@ -24,12 +24,12 @@ namespace Workers
 
         public void LevelUp()
         {
-            EfficiencyMultiplier += Worker.Upgrades[Level].UpgradeCost;
+            EfficiencyMultiplier += Worker.Levels[Level].Cost;
             _currentLevel++;
         }
 
-        public bool CanBeUpgraded() => _currentLevel < Worker.Upgrades.Length;
+        public bool CanBeUpgraded() => _currentLevel < Worker.Levels.Length;
 
-        public WorkerUpgrade GetNextUpgrade() => !CanBeUpgraded() ? null : Worker.Upgrades[_currentLevel];
+        public WorkerUpgrade GetNextUpgrade() => !CanBeUpgraded() ? null : Worker.Levels[_currentLevel];
     }
 }

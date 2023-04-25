@@ -4,11 +4,8 @@ namespace Seasons
 {
     public class Season
     {
-        public SeasonName season;
+        public readonly SeasonName SeasonName;
 
-        public Season(SeasonName season)
-        {
-            this.season = season;
-        }
+        public Season(SeasonName seasonName) => SeasonName = seasonName;
     }
 }

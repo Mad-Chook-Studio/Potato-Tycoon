@@ -1,25 +1,36 @@
 ﻿using UnityEngine;
 
-public class Field : MonoBehaviour
+namespace Fields
 {
-    public Potato PlantedPotato { get; set; }
-    public float CurrentGrowth { get; set; }
-
-    public Field(Potato potato)
+    public class Field : MonoBehaviour
     {
-        PlantedPotato = potato;
-        CurrentGrowth = 0f;
-    }
+        public Potato PlantedPotato { get; private set; }
+        public float CurrentGrowth { get; private set; }
 
-    public void GrowPotato(float growthRate)
-    {
-        if (PlantedPotato == null) return;
-        
-        CurrentGrowth += growthRate;
-
-        if (CurrentGrowth > PlantedPotato.MaxGrowth)
+        public Field(Potato potato)
         {
-            CurrentGrowth = PlantedPotato.MaxGrowth;
+            PlantedPotato = potato;
+            CurrentGrowth = 0f;
+        }
+
+        public void PlantPotato(Potato potato)
+        {
+            //Check if player can plant the potato here
+
+            PlantedPotato = potato;
+            CurrentGrowth = 0;
+        }
+
+        public void GrowPotato(float growthRate)
+        {
+            if (PlantedPotato == null) return;
+        
+            CurrentGrowth += growthRate;
+
+            if (CurrentGrowth > PlantedPotato.MaxGrowth)
+            {
+                CurrentGrowth = PlantedPotato.MaxGrowth;
+            }
         }
     }
 }

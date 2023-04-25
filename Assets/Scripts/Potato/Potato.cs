@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using GameEnums;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewPotato", menuName = "Potato Tycoon/Potato", order = 0)]
@@ -24,11 +23,4 @@ public class Potato : ScriptableObject
     [SerializeField]
     private int _level;
     public int Level => _level;
-}
-
-[System.Serializable]
-public struct PotatoSeasonGrowth
-{
-    public readonly float GrowthModifier;
-    public readonly SeasonName Season;
 }

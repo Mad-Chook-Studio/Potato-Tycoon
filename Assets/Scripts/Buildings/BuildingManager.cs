@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Managers;
+using UnityEngine;
 
 namespace Buildings
 {
     public class BuildingManager
     {
-        public int OverallWorkerLimit => _plots.Sum(x => x.BuildingData.WorkerLimit);
+        public int OverallWorkerLimit => _plots.Sum(x => x.BuildingData.Stats.WorkerCapacity);
 
         private readonly List<BuildingPlot> _plots;
 
@@ -19,21 +20,21 @@ namespace Buildings
             Building building = plot.BuildingData.Building;
             int currentLevel = plot.BuildingData.Level;
 
-            if (currentLevel < building.Upgrades.Count)
+            if (currentLevel < building.Levels.Count)
             {
-                BuildingUpgrade upgrade = building.Upgrades[currentLevel];
+                BuildingUpgrade upgrade = building.Levels[currentLevel];
                 
                 if (!GameManager.CurrencyManager.SpendCurrency(upgrade.Cost))
                     return;
 
-                plot.BuildingData.Level++;
-                plot.BuildingData.WorkerLimit += upgrade.WorkerCapacity;
+                plot.BuildingData.LevelUp();
 
                 // Update UI and save progress
                 // ...
             }
             else
             {
+                Debug.Log("Building already max level");
                 // The building is already at the maximum level
                 // ...
             }
@@ -44,7 +45,7 @@ namespace Buildings
             if (!plot.CanPlaceBuilding(building))
                 return false;
 
-            if (!GameManager.CurrencyManager.SpendCurrency(building.Upgrades[0].Cost))
+            if (!GameManager.CurrencyManager.SpendCurrency(building.Levels[0].Cost))
                 return false;
 
             // Place the building on the plot

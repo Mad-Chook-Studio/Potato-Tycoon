@@ -11,7 +11,7 @@ namespace Workers
         // Hire a worker
         public bool HireWorker(Worker workerToHire)
         {
-            if (!GameManager.CurrencyManager.SpendCurrency(workerToHire.Cost))
+            if (!GameManager.CurrencyManager.SpendCurrency(workerToHire.Levels[0].Cost))
                 return false;
 
             if (GetWorkerCount() >= GameManager.BuildingManager.OverallWorkerLimit)
@@ -52,7 +52,7 @@ namespace Workers
                 return false;
 
             //Can the player afford it?
-            if (!GameManager.CurrencyManager.SpendCurrency(upgrade.UpgradeCost))
+            if (!GameManager.CurrencyManager.SpendCurrency(upgrade.Cost))
                 return false;
             
             data.LevelUp();

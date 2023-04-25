@@ -5,10 +5,9 @@ namespace Fields
 {
     public class FieldManager
     {
-        private List<Field> _fields;
-        public List<Field> Fields => _fields;
+        public List<Field> Fields { get; }
 
-        public FieldManager(List<Field> fields) => _fields = fields;
+        public FieldManager(List<Field> fields) => Fields = fields;
         
         public void GrowPotatoes()
         {
