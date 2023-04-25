@@ -23,7 +23,7 @@ namespace Buildings
             {
                 BuildingUpgrade upgrade = building.Upgrades[currentLevel];
                 
-                if (!GameManager.Instance.CurrencyManager.SpendCurrency(upgrade.Cost))
+                if (!GameManager.CurrencyManager.SpendCurrency(upgrade.Cost))
                     return;
 
                 plot.BuildingData.Level++;
@@ -44,7 +44,7 @@ namespace Buildings
             if (!plot.CanPlaceBuilding(building))
                 return false;
 
-            if (!GameManager.Instance.CurrencyManager.SpendCurrency(building.Upgrades[0].Cost))
+            if (!GameManager.CurrencyManager.SpendCurrency(building.Upgrades[0].Cost))
                 return false;
 
             // Place the building on the plot

@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Enums;
+using GameEnums;
 using Managers;
 using Quests;
 using UnityEngine;
@@ -49,7 +48,7 @@ public class QuestManager
         _activeQuests.Remove(data);
         _completedQuests.Add(quest);
         
-        GameManager.Instance.CurrencyManager.EarnCurrency(quest.CurrencyReward);
+        GameManager.CurrencyManager.EarnCurrency(quest.CurrencyReward);
     }
 
     // Update quest progress based on the quest type

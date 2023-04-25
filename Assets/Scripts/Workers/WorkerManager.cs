@@ -11,10 +11,10 @@ namespace Workers
         // Hire a worker
         public bool HireWorker(Worker workerToHire)
         {
-            if (!GameManager.Instance.CurrencyManager.SpendCurrency(workerToHire.Cost))
+            if (!GameManager.CurrencyManager.SpendCurrency(workerToHire.Cost))
                 return false;
 
-            if (GetWorkerCount() >= GameManager.Instance.BuildingManager.OverallWorkerLimit)
+            if (GetWorkerCount() >= GameManager.BuildingManager.OverallWorkerLimit)
                 return false;
 
             if (!GetWorker(workerToHire, out WorkerData data))
@@ -52,7 +52,7 @@ namespace Workers
                 return false;
 
             //Can the player afford it?
-            if (!GameManager.Instance.CurrencyManager.SpendCurrency(upgrade.UpgradeCost))
+            if (!GameManager.CurrencyManager.SpendCurrency(upgrade.UpgradeCost))
                 return false;
             
             data.LevelUp();
@@ -66,5 +66,8 @@ namespace Workers
             data = Workers.Find(x => x.Worker == worker);
             return data != null;
         }
+
+        public float GetWorkerEfficiency(int potatoLevel) => Workers.Where(worker => worker.Level >= potatoLevel)
+            .Sum(worker => worker.EfficiencyMultiplier);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Enums;
+using GameEnums;
 using UnityEngine;
 
 namespace Buildings

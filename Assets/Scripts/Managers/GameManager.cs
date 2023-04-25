@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Buildings;
+using Fields;
 using Seasons;
 using UnityEngine;
 using Workers;
@@ -10,15 +11,21 @@ namespace Managers
     {
         public static GameManager Instance { get; private set; }
     
-        public CurrencyManager CurrencyManager { get; private set; }
-        public BuildingManager BuildingManager { get; private set; }
-        public WorkerManager WorkerManager { get; private set; }
-        public PotatoManager PotatoManager { get; private set; }
-        public QuestManager QuestManager { get; private set; }
-        public SeasonManager SeasonManager { get; private set; }
+        public static CurrencyManager CurrencyManager;
+        public static QuestManager QuestManager;
+        
+        public static BuildingManager BuildingManager;
+        public static WorkerManager WorkerManager;
+        
+        public static SeasonManager SeasonManager;
+        public static PotatoManager PotatoManager;
+        public static FieldManager FieldManager;
+        
 
         [SerializeField]
         private float _baseGrowthRate = 1f;
+
+        public static float BaseGrowthRate;
 
         [SerializeField] 
         private float _tickTime = 1.0f;
@@ -37,12 +44,15 @@ namespace Managers
                 return;
             }
 
+            BaseGrowthRate = _baseGrowthRate;
+
             CurrencyManager = new CurrencyManager();
             BuildingManager = new BuildingManager(FindObjectsOfType<BuildingPlot>().ToList());
             WorkerManager = new WorkerManager();
-            PotatoManager = new PotatoManager(_baseGrowthRate, Resources.LoadAll<Potato>("").ToList());
+            PotatoManager = new PotatoManager();
             QuestManager = new QuestManager();
             SeasonManager = new SeasonManager();
+            FieldManager = new FieldManager(FindObjectsOfType<Field>().ToList());
         }
     
         private void Update()
@@ -51,25 +61,13 @@ namespace Managers
 
             if (_timer < _tickTime) return;
         
-            GrowPotatoes();
+            FieldManager.GrowPotatoes();
             _timer = 0f;
         }
 
-        private void GrowPotatoes()
+        public static float CalculateTotalEfficiency(int potatoLevel)
         {
-            foreach (Field field in PotatoManager.Fields)
-            {
-                float efficiency = (field.PlantedPotato.Level);
-                field.GrowPotato(_baseGrowthRate * efficiency);
-            }
-        }
-
-        private float CalculateTotalEfficiency(int levelRequired)
-        {
-            float totalEfficiency = WorkerManager.Workers
-                .Where(worker => worker.Level >= levelRequired)
-                .Sum(worker => worker.EfficiencyMultiplier);
-
+            float totalEfficiency = WorkerManager.GetWorkerEfficiency(potatoLevel);
             return 1 + totalEfficiency;
         }
     }
