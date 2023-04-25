@@ -1,12 +1,17 @@
-﻿using GameEnums;
+﻿using System;
+using GameEnums;
+using UnityEngine;
 
 namespace Potatoes
 {
-    [System.Serializable]
+    [Serializable]
     public struct PotatoSeasonGrowth
     {
-        public readonly float GrowthModifier;
-        public readonly SeasonName SeasonName;
+        [field: SerializeField]
+        public float GrowthModifier { get; private set; }
+        
+        [field: SerializeField]
+        public SeasonName SeasonName { get; private set; }
 
         public PotatoSeasonGrowth(float growthModifier, SeasonName seasonName)
         {

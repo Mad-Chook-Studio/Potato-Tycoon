@@ -1,9 +1,11 @@
-﻿using Potatoes;
+﻿using Generic;
+using Managers;
+using Potatoes;
 using UnityEngine;
 
 namespace Fields
 {
-    public class Field : MonoBehaviour
+    public class Field : WorldObject
     {
         public Potato PlantedPotato { get; private set; }
         public float CurrentGrowth { get; private set; }
@@ -33,5 +35,13 @@ namespace Fields
                 CurrentGrowth = PlantedPotato.MaxGrowth;
             }
         }
+
+        public void SetFieldData(FieldData fieldData)
+        {
+            PlantedPotato = GameManager.PotatoManager.GetPotato(fieldData.PotatoName);
+            CurrentGrowth = fieldData.GrowthProgress;
+        }
+
+        public void SetGrowth(float dataCurrentGrowth) => CurrentGrowth = dataCurrentGrowth;
     }
 }

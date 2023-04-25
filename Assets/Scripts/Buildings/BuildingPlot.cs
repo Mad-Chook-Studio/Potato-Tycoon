@@ -1,9 +1,11 @@
 ﻿using GameEnums;
+using Generic;
+using Saving;
 using UnityEngine;
 
 namespace Buildings
 {
-    public class BuildingPlot : MonoBehaviour
+    public class BuildingPlot : WorldObject
     {
         [field: SerializeField]
         public BuildingSize Size { get; private set; }
@@ -28,5 +30,11 @@ namespace Buildings
         }
 
         public bool CanPlaceBuilding(Building building) => building.Size <= Size && !IsOccupied;
+
+        public void SetLevel(int dataLevel)
+        {
+            while(BuildingData.Level < dataLevel)
+                BuildingData.LevelUp();
+        }
     }
 }

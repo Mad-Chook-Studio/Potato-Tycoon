@@ -1,12 +1,18 @@
 ﻿using System.Collections.Generic;
 using Managers;
 using System.Linq;
+using Saving;
+using TMPro;
+using UnityEngine;
 
 namespace Workers
 {
     public class WorkerManager
     {
-        private readonly List<WorkerData> _workers = new();
+        private readonly List<Worker> _workers = new();
+        private readonly List<WorkerData> _workersData = new();
+
+        public WorkerManager() => _workers = Resources.LoadAll<Worker>("").ToList();
 
         // Hire a worker
         public bool HireWorker(Worker workerToHire)
@@ -23,7 +29,7 @@ namespace Workers
             }
             else
             {
-                _workers.Add(new WorkerData(workerToHire));
+                _workersData.Add(new WorkerData(workerToHire));
             }
             
             return true; // Worker successfully hired
@@ -36,7 +42,7 @@ namespace Workers
             
             data.RemoveWorker();
             if (data.Count <= 0)
-                _workers.RemoveAll(x => x.Worker == workerToFire);
+                _workersData.RemoveAll(x => x.Worker == workerToFire);
             return true;
         }
 
@@ -59,15 +65,40 @@ namespace Workers
             return true;
         }
 
-        private int GetWorkerCount() => _workers.Sum(x => x.Count);
+        private int GetWorkerCount() => _workersData.Sum(x => x.Count);
 
         private bool GetWorker(Worker worker, out WorkerData data)
         {
-            data = _workers.Find(x => x.Worker == worker);
+            data = _workersData.Find(x => x.Worker == worker);
             return data != null;
         }
 
-        public float GetWorkerEfficiency(int potatoLevel) => _workers.Where(worker => worker.Level >= potatoLevel)
+        private Worker GetWorkerByName(string workerName) =>
+            _workers.FindLast(x => x.WorkerName == workerName);
+
+        public float GetWorkerEfficiency(int potatoLevel) => _workersData.Where(worker => worker.GetLevel() >= potatoLevel)
             .Sum(worker => worker.EfficiencyMultiplier);
+        
+        public List<WorkerSaveData> GetSaveData() => _workersData.Select(worker => new WorkerSaveData(worker)).ToList();
+
+        public void LoadData(List<WorkerSaveData> workerSaveData)
+        {
+            foreach (WorkerSaveData data in workerSaveData)
+            {
+                Worker worker = GetWorkerByName(data.WorkerName);
+                
+                if (worker == null)
+                {
+                    Debug.Log("Worker not found");
+                    return;
+                }
+                
+                WorkerData workerData = new WorkerData(worker);
+                while(workerData.GetLevel(false) < data.Level)
+                    workerData.LevelUp();
+                
+                _workersData.Add(workerData);
+            }
+        }
     }
 }

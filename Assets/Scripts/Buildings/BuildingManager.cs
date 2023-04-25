@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Managers;
+using Saving;
 using UnityEngine;
 
 namespace Buildings
@@ -10,9 +11,17 @@ namespace Buildings
         public int OverallWorkerLimit => _plots.Sum(x => x.BuildingData.Stats.WorkerCapacity);
 
         private readonly List<BuildingPlot> _plots;
+        private readonly List<Building> _buildings;
 
-        public BuildingManager(List<BuildingPlot> plots) => _plots = plots;
+        public BuildingManager(List<BuildingPlot> plots)
+        {
+            _plots = plots;
+            _buildings = Resources.LoadAll<Building>("").ToList();
+        }
 
+        public Building GetBuilding(string buildingName) => _buildings.FindLast(x => x.BuildingName == buildingName);
+        public BuildingPlot GetBuildingPlot(ushort id) => _plots.FindLast(x => x.Id == id);
+        
         // Upgrade a specific building
         public void UpgradeBuilding(BuildingPlot plot)
         {
@@ -69,5 +78,24 @@ namespace Buildings
             
             return true;
         }
+
+        public List<BuildingSaveData> GetSaveData() => _plots.Select(plot => new BuildingSaveData(plot)).ToList();
+
+        public void LoadData(List<BuildingSaveData> buildingDataList)
+        {
+            foreach (BuildingSaveData data in buildingDataList)
+            {
+                BuildingPlot plot = GetBuildingPlot(data.Id);
+                if (plot == null)
+                {
+                    Debug.Log("Plot not found");
+                    return;
+                }
+                
+                plot.PlaceBuilding(GetBuilding(data.BuildingName));
+                plot.SetLevel(data.Level);
+            }
+        }
+
     }
 }

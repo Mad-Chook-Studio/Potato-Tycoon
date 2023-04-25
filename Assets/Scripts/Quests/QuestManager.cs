@@ -2,6 +2,7 @@
 using System.Linq;
 using GameEnums;
 using Managers;
+using Saving;
 using UnityEngine;
 
 namespace Quests
@@ -62,5 +63,17 @@ namespace Quests
                 quest.UpdateQuestProgress(amount);
             }
         }
+
+        public QuestSaveData GetSaveData() => new QuestSaveData(_completedQuests);
+
+        public void LoadData(QuestSaveData data)
+        {
+            foreach (Quest quest in data.CompletedQuests.Select(FindQuestByName))
+            {
+                _completedQuests.Add(quest);
+            }
+        }
+
+        private Quest FindQuestByName(string questName) => _quests.FindLast(x => x.QuestName == questName);
     }
 }

@@ -22,7 +22,6 @@ namespace Managers
         public static PotatoManager PotatoManager;
         public static FieldManager FieldManager;
         
-
         [SerializeField]
         private float _baseGrowthRate = 1f;
 

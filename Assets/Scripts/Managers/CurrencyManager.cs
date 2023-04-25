@@ -24,5 +24,7 @@
 
             return true;
         }
+
+        public void SetCurrency(int saveDataCurrency) => Currency = saveDataCurrency;
     }
 }

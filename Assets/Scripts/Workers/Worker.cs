@@ -13,5 +13,8 @@ namespace Workers
 
         [SerializeField] private WorkerUpgrade[] _levels;
         public WorkerUpgrade[] Levels => _levels;
+
+        [SerializeField] private uint[] _additionalWorkerCost;
+        private uint[] AdditionalWorkerCost => _additionalWorkerCost;
     }
 }

@@ -3,10 +3,9 @@
     public class WorkerData
     {
         public Worker Worker { get; }
-        public int Level => Worker.WorkerLevel + _currentLevel;
         public float EfficiencyMultiplier { get; private set; }
         public int Count { get; private set; }
-
+        
         private int _currentLevel;
 
         public WorkerData(Worker worker)
@@ -22,9 +21,12 @@
 
         public void LevelUp()
         {
-            EfficiencyMultiplier += Worker.Levels[Level].Cost;
+            EfficiencyMultiplier += Worker.Levels[GetLevel()].Cost;
             _currentLevel++;
         }
+
+        public int GetLevel(bool includeDefault = true) =>
+            includeDefault ? Worker.WorkerLevel + _currentLevel : _currentLevel;
 
         public bool CanBeUpgraded() => _currentLevel < Worker.Levels.Length;
 

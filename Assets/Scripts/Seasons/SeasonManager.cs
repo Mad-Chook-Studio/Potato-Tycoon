@@ -26,5 +26,10 @@ namespace Seasons
         }
 
         public void SetSeason(Season season) => CurrentSeason = season;
+        
+        public string GetCurrentSeasonName() => CurrentSeason.SeasonName.ToString();
+
+        public void SetCurrentSeason(string seasonName) => CurrentSeason = Seasons.Find(season => season.SeasonName.ToString() == seasonName);
+
     }
 }
