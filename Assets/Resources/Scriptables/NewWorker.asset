@@ -13,7 +13,5 @@ MonoBehaviour:
   m_Name: NewWorker
   m_EditorClassIdentifier: 
   _workerName: 
-  _cost: 0
   _workerLevel: 0
-  _efficiencyMultiplier: 0
-  _upgrades: []
+  _levels: []
